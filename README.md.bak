@@ -1,0 +1,9 @@
+# LifeRecord-front-end 
+# 博客网站开发（Nuxt.js+Koa+MoangoDB）
+
+### 1. 进入github官网，新建仓库，克隆至本地文件夹
+
+### 2. 新建前端项目，命令npx create-nuxt-app liferecord-front（项目名称），新建完成后，运行项目，cd liferecord-front，npm run dev
+
+### 3. 进入iconfont官网，新建图标管理项目，将所需图标上传，
+
