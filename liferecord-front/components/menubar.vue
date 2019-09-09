@@ -1,9 +1,19 @@
 <template>
   <div>
-      <nuxt-link to="home">首页</nuxt-link>
-      <nuxt-link to="blog">博客</nuxt-link>
-      <nuxt-link to="message">留言板</nuxt-link>
-      <nuxt-link to="author">关于作者</nuxt-link>
+    <ul class="menu">
+      <li>
+        <nuxt-link to="home">首页</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="blog">博客</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="message">留言板</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="author">关于作者</nuxt-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -13,6 +23,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  
 </style>

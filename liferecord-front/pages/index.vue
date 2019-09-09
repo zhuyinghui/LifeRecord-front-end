@@ -2,6 +2,7 @@
   <div class="container">
     <menubar></menubar>
     <nuxt-child/>
+    <div style="width:1440px;height:50px;background:gold;">fff</div>
   </div>
 </template>
 <script>
@@ -14,6 +15,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.container{
+  background: red;
+}
 </style>
