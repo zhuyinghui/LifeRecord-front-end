@@ -1,5 +1,5 @@
 # LifeRecord-front-end 
-# 博客网站开发（Nuxt.js+Koa+MoangoDB）
+# 博客网站开发之Nuxt.js项目搭建及配置
 
 #### 1. 进入github官网，新建仓库，克隆至本地文件夹，命令git clone https://github.com/zhuyinghui/LifeRecord-front-end.git
 
@@ -11,7 +11,8 @@
 ```
 import '~/static/iconfont/iconfont.css'
 ```
-#### 5. 在static文件夹下新建common.css文件作为全局样式文件，打开nuxt.config.js，配置全局样式文件在link数组中添加{ rel: 'stylesheet' , type:'text/css' , href:'/common.css' }，重启项目
+#### 5. 在static文件夹下新建common.css文件作为全局样式文件，打开nuxt.config.js，配置全局样式文件，在link数组中添加{ rel: 'stylesheet' , type:'text/css' , href:'/common.css' };
+或者在assets文件夹下新建common.css文件作为全局样式文件，打开nuxt.config.js，配置全局样式文件，在css数组中加入'~assets/css/common.css'
 
 #### 6. 新建页面，配置路由，pages/index.vue文件代码及目录结构如下
 ```
@@ -36,7 +37,7 @@ export default {
 menubar.vue
 <template>
   <div>
-      <nuxt-link to="home">首页</nuxt-link>
+      <nuxt-link to="/">首页</nuxt-link>
       <nuxt-link to="blog">博客</nuxt-link>
       <nuxt-link to="message">留言板</nuxt-link>
       <nuxt-link to="author">关于作者</nuxt-link>
@@ -47,13 +48,24 @@ menubar.vue
 pages
 --index.vue
 --index
+----index.vue
 ----author
 ------index.vue
 ----blog
 ------index.vue
-----home
-------index.vue
 ----message
 ------index.vue
+```
+
+#### 7. 引入sass，命令npm install --save-dev node-sass sass-loader，使用<style lang="scss" scoped></style>
+
+#### 8. 安装字体，在网上下载字体文件思源黑体.tof和思源黑体.ttf，放置在static/font文件夹中，在common.css里面加入如下代码
+```
+@font-face
+{
+font-family: heiti;
+src: url('~static/font/思源黑体.otf'),
+    url('~static/font/思源黑体.ttf')
+}
 ```
 

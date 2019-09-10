@@ -1,0 +1,43 @@
+@font-face
+{
+font-family: heiti;
+src: url('~static/font/思源黑体.otf'),
+    url('~static/font/思源黑体.ttf')
+}
+
+html{
+    color:#333;
+    min-width: 1150px;
+}
+*{
+    margin: 0;
+    padding:0;
+}
+a{
+    text-decoration: none;
+    color:#333;
+}
+ul{
+    list-style: none;
+}
+.container{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.imgContainer{
+    height: 650px;
+    width: 100%;
+    background: #6c62ff;
+  }
+  .bigImg{
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    min-width: 1150px;
+    max-width: 1150px;
+    background: url('~static/bigimg.png'); 
+    background-size: 100% auto;
+    color:#fff;
+  }

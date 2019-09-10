@@ -1,5 +1,10 @@
 <template>
-  <div>关于作者页</div>
+  <div>
+  <div class="imgContainer">
+      <div class="bigImg"></div>
+  </div>
+  <div class="container">关于作者内容</div>
+</div>
 </template>
 
 <script>
