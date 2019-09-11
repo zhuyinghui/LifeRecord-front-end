@@ -1,9 +1,11 @@
 <template>
   <div>
   <div class="imgContainer">
-      <div class="bigImg"></div>
+      <div class="bigImg">
+        <div>仙门禁地~~凡人禁止入内~~</div>
+      </div>
   </div>
-  <div class="container">关于作者内容</div>
+  <div class="container"></div>
 </div>
 </template>
 
@@ -13,6 +15,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.bigImg{
+  display: flex;
+  align-items: center;
+  div{
+    font-size:48px;
+    margin-left: 100px;
+  }
+}
 </style>

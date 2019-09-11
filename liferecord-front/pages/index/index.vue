@@ -38,9 +38,6 @@
           这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题
         </li>
         <li>
-              这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘要这是博客的内容前段内容摘
-        </li>
-        <li>
           <i class="iconfont iconren"></i>
           <span>zhuyinghui</span>
           <i class="iconfont iconrili1"></i>
@@ -62,19 +59,45 @@
         </li>
       </ul>
     </div>
-    
+    <pagebar></pagebar>
   </div>
 </div>
   
 </template>
 
 <script>
+import pagebar from '@/components/pagebar'
 export default {
+  components:{
+    pagebar
+  },
 
+//    async asyncData({ $axios }) {
+//      console.log('被执行了v')
+//       const ip = await $axios.$get('blogs?page=1&limit=10')
+//       console.log(ip)
+//       return { ip }
+// },
+
+  methods:{
+    async fetchSomething() {
+      console.log('zhixingle ')
+      const ip = await this.$axios.$get('/api/blogs?page=1&limit=10')
+      console.log(ip)
+    }
+  },
+  mounted(){
+    this.fetchSomething()
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .content{
   ul{
     box-shadow: 2px 2px 17px #C4C0F9;
@@ -93,11 +116,6 @@ export default {
         font-weight: bold;
       }
       &:nth-child(2){
-          max-height: 42px;
-          overflow: hidden;
-          font-size: 14px;
-      }
-      &:nth-child(3){
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -115,7 +133,7 @@ export default {
             margin-right: 25px;
         }
       }
-      &:nth-child(4){
+      &:nth-child(3){
         height: 60px;
         width: 60px;
         color: #fff;
@@ -131,7 +149,7 @@ export default {
           border-radius: 60px 0 60px 60px;
         }
       }
-      &:nth-child(5){
+      &:nth-child(4){
         font-size: 14px;
         position: absolute;
         bottom: 0;

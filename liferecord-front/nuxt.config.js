@@ -39,7 +39,23 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
   ],
+  axios:{
+    proxy: true,
+    prefix: '/api', // baseURL
+    credentials: true,
+  },
+  proxy:{
+    '/api/': {
+      target: 'localhost:3000', // 代理地址
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': ''
+      },
+    },
+    }
+  },
   /*
   ** Build configuration
   */
@@ -49,5 +65,9 @@ module.exports = {
     */
     extend (config, ctx) {
     }
+  },
+  server:{
+    port:8080,
+    host:'0.0.0.0'
   }
 }

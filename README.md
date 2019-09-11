@@ -69,3 +69,12 @@ src: url('~static/font/思源黑体.otf'),
 }
 ```
 
+#### 9. 修改端口号，在nuxt.config.js中添加如下代码
+```
+server:{
+    port:8080,
+    host:'0.0.0.0'
+}
+```
+
+### 10. 配置axios，安装命令npm install @nuxtjs/axios @nuxtjs/axios
