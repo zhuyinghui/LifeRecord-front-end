@@ -38,22 +38,19 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: [
-    '@nuxtjs/axios',
+ modules: [
+  '@nuxtjs/axios',
+  '@nuxtjs/proxy'
   ],
-  axios:{
-    proxy: true,
-    prefix: '/api', // baseURL
-    credentials: true,
+  axios: {
+    proxy: true
   },
-  proxy:{
-    '/api/': {
-      target: 'localhost:3000', // 代理地址
-      changeOrigin: true,
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000/api/',
       pathRewrite: {
-        '^/api': ''
-      },
-    },
+        '^/api' : '/'
+      }
     }
   },
   /*

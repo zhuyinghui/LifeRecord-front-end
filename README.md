@@ -77,4 +77,56 @@ server:{
 }
 ```
 
-### 10. 配置axios，安装命令npm install @nuxtjs/axios @nuxtjs/axios
+### 10. 配置axios及代理解决跨域问题，安装命令npm install @nuxtjs/axios @nuxtjs/axios --save，在nuxt.config.js的配置如下，
+```
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
+  ],
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000/api/',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
+  },
+```
+### 11. 异步请求数据
+```
+//方法一
+  data(){
+    return{
+      count:0,
+      list:[]
+    }
+  },
+  methods:{
+    async fetchSomething() {
+      const data = await this.$axios.$get('/api/blogs?page=1&limit=10')
+      this.list=data.data;
+      this.count=data.count;
+    }
+  },
+  mounted(){
+    this.fetchSomething()
+  }
+
+//方法二，注意解构赋值的用法
+  async asyncData (ctx) {
+    const {count,data} = await ctx.$axios.$get('/api/blogs?page=1&limit=10')
+    return { count:count, list:data }
+  },
+
+```
+
+### 12. 路由传参，将需要参数的页面命名为“_参数名.vue”的形式，如博客详情页的目录为pages/blog/_blogId.vue，页面路由为http://localhost:8080/blog/5d7eedf4dc115a1d84de6262，在_blogId.vue里获取参数并请求数据代码如下
+```
+  async asyncData(ctx){
+    const {data}=await ctx.$axios.$get('/api/blogs/checkDetail?blogId='+ctx.params.blogId);
+    return {article:data};
+  },
+```

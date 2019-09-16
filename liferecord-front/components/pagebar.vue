@@ -39,10 +39,9 @@ export default {
     }
   },
   methods:{
-      test(){
+      initData(){
         let maxnum=10; //最大页数
         this.list[6].value=maxnum;
-        console.log(this.list)
       },
       choosePage(index,value){
         if(index!==1&&index!==5){
@@ -70,7 +69,7 @@ export default {
                 }
             }
         this.currentPage=value;
-        console.log(value)
+        this.$emit('getPage',value);
         }
       },
       nextPage(){
@@ -90,10 +89,13 @@ export default {
                   this.choosePage(2,this.list[2].value);
               }
           }
+      },
+      toPageone(){
+          this.choosePage(0,1);
       }
   },
   mounted(){
-      this.test()
+      this.initData()
   }
  }
 </script>

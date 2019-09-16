@@ -11,55 +11,39 @@
   </div>
   <div class="container">
     <ul class="menulist">
-      <li>
-        <i class="iconfont icon_qianduankaifa"></i>
-        <span>前端开发</span>
-      </li>
-      <li>
-        <i class="iconfont icon_houduankaifa"></i>
-        <span>后端开发</span>
-      </li>
-      <li>
-        <i class="iconfont iconshenghuo"></i>
-        <span>生活记录</span>
-      </li>
-      <li>
-        <i class="iconfont iconyoulechang"></i>
-        <span>吃喝玩乐</span>
-      </li>
-      <li>
-        <i class="iconfont iconshijieditudiqiu"></i>
-        <span>环游世界</span>
+      <li v-for="(item,index) in  typelist" :key="index" @click="chooseType(item.value)" :class="{'ifselect':item.ifselect}">
+        <i :class="item.icon"></i>
+        <span>{{item.name}}</span>
       </li>
     </ul>
     <div class="content">
-      <ul v-for="n in 10" :key="n">
+      <ul v-for="(item,n) in list" :key="n">
         <li>
-          这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题这是一篇博客的大标题
+          {{item.blogTitle}}
         </li>
         <li>
           <i class="iconfont iconren"></i>
-          <span>zhuyinghui</span>
+          <span>{{item.userId.userName}}</span>
           <i class="iconfont iconrili1"></i>
-          <span>2019/9/6 上午10:35:26</span>
+          <span>{{item.publishTime}}</span>
         </li>
         <li>
-          <div v-if="n%5==1" style="background:#6c62ff;">{{n}}</div>
-          <div v-if="n%5==2" style="background:#fe6566;">{{n}}</div>
-          <div v-if="n%5==3" style="background:#3fb750;">{{n}}</div>
-          <div v-if="n%5==4" style="background:#ff7008;">{{n}}</div>
-          <div v-if="n%5==0" style="background:#23bdb6;">{{n}}</div>
+          <div v-if="n%5==0" style="background:#6c62ff;">{{n+1}}</div>
+          <div v-if="n%5==1" style="background:#fe6566;">{{n+1}}</div>
+          <div v-if="n%5==2" style="background:#3fb750;">{{n+1}}</div>
+          <div v-if="n%5==3" style="background:#ff7008;">{{n+1}}</div>
+          <div v-if="n%5==4" style="background:#23bdb6;">{{n+1}}</div>
         </li>
         <li>
-          <div v-if="n%5==1"><a style="color:#6c62ff;" href="javasrcipt:void(0)">查看详情>></a></div>
-          <div v-if="n%5==2"><a style="color:#fe6566;" href="javasrcipt:void(0)">查看详情>></a></div>
-          <div v-if="n%5==3"><a style="color:#3fb750;" href="javasrcipt:void(0)">查看详情>></a></div>
-          <div v-if="n%5==4"><a style="color:#ff7008;" href="javasrcipt:void(0)">查看详情>></a></div>
-          <div v-if="n%5==0"><a style="color:#23bdb6;" href="javasrcipt:void(0)">查看详情>></a></div>
+          <div v-if="n%5==0" style="color:#6c62ff;" @click="checkDetail(item._id,n)">查看详情>></div>
+          <div v-if="n%5==1" style="color:#fe6566;" @click="checkDetail(item._id,n)">查看详情>></div>
+          <div v-if="n%5==2" style="color:#3fb750;" @click="checkDetail(item._id,n)">查看详情>></div>
+          <div v-if="n%5==3" style="color:#ff7008;" @click="checkDetail(item._id,n)">查看详情>></div>
+          <div v-if="n%5==4" style="color:#23bdb6;" @click="checkDetail(item._id,n)">查看详情>></div>
         </li>
       </ul>
     </div>
-    <pagebar></pagebar>
+    <pagebar @getPage='getPage' ref="pageBar"></pagebar>
   </div>
 </div>
   
@@ -68,27 +52,65 @@
 <script>
 import pagebar from '@/components/pagebar'
 export default {
+  data(){
+    return{
+      typelist:[
+        {
+          name:'前端开发',value:0,icon:'iconfont icon_qianduankaifa',ifselect:false
+        },
+        {
+          name:'后端开发',value:1,icon:'iconfont icon_houduankaifa',ifselect:false
+        },
+        {
+          name:'生活记录',value:2,icon:'iconfont iconshenghuo',ifselect:false
+        },
+        {
+          name:'吃喝玩乐',value:3,icon:'iconfont iconyoulechang',ifselect:false
+        },
+        {
+          name:'环游世界',value:4,icon:'iconfont iconshijieditudiqiu',ifselect:false
+        },
+      ],
+      type:5,  //当前博客类型，5代表全部博客
+      page:1, //当前页码
+    }
+  },
   components:{
     pagebar
   },
-
-//    async asyncData({ $axios }) {
-//      console.log('被执行了v')
-//       const ip = await $axios.$get('blogs?page=1&limit=10')
-//       console.log(ip)
-//       return { ip }
-// },
-
   methods:{
-    async fetchSomething() {
-      console.log('zhixingle ')
-      const ip = await this.$axios.$get('/api/blogs?page=1&limit=10')
-      console.log(ip)
+    async chooseType(value){
+      //保存当前博客类型
+      this.type=value;
+      //当前博客类型选中样式
+      for(let item of this.typelist){
+        item.ifselect=false;
+      }
+      this.typelist[value].ifselect=true;
+      //获取选中类型的博客
+      const {data} = await this.$axios.$get('/api/blogs?page=1&limit=10&type='+value);
+      this.list=data;
+      //将分页组件页码返回成1
+      this.$refs.pageBar.toPageone();
+    },
+    async getPage(page){
+      this.currentPage=page;
+      const {data} = await this.$axios.$get('/api/blogs?page='+page+'&limit=10&type='+this.type);
+      this.list=data;
+    },
+    checkDetail(_id,index){
+      this.$router.push({path:'/blog/'+_id,query:{
+        type:this.type,
+        page:this.page,
+        index:index
+      }});
+      
     }
   },
-  mounted(){
-    this.fetchSomething()
-  }
+  async asyncData (ctx) {
+    const {data} = await ctx.$axios.$get('/api/blogs?page=1&limit=10&type=5')
+    return { list:data }
+  },
 }
 </script>
 
@@ -99,6 +121,7 @@ export default {
   align-items: center;
 }
 .content{
+  width: 100%;
   ul{
     box-shadow: 2px 2px 17px #C4C0F9;
     margin-top: 50px; 
@@ -155,6 +178,7 @@ export default {
         bottom: 0;
         right: 80px;
         font-weight: bold;
+        cursor: pointer;
       }
     }
   }
@@ -199,10 +223,14 @@ export default {
     &:hover{
       border-bottom: 5px solid #6c62ff;
     }
+    
     i{
       font-size: 58px;
       margin-bottom: 10px;
     }
+  }
+  .ifselect{
+      border-bottom: 5px solid #6c62ff;
   }
 }
 </style>

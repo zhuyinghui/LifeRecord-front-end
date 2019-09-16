@@ -8,13 +8,13 @@
         <nuxt-link to="/">首页</nuxt-link>
       </li>
       <li>
-        <nuxt-link to="blog">博客</nuxt-link>
+        <nuxt-link :to="'/blog/'+blogLink+'?type=5'">博客</nuxt-link>
       </li>
       <li>
-        <nuxt-link to="message">留言板</nuxt-link>
+        <nuxt-link to="/message">留言板</nuxt-link>
       </li>
       <li>
-        <nuxt-link to="author">关于作者</nuxt-link>
+        <nuxt-link to="/author">关于作者</nuxt-link>
       </li>
     </ul>
   </div>
@@ -25,6 +25,14 @@ export default {
   data(){
     return{
       ifbackcolor:false,
+      blogLink:''
+    }
+  },
+  methods:{
+    async getId(){
+      //获取最新一条博客的id
+      const data=await this.$axios.$get('/api/blogs?page=1&limit=1&type=5')
+      this.blogLink=data.data[0]._id;
     }
   },
   mounted(){
@@ -36,6 +44,7 @@ export default {
         this.ifbackcolor=false;
       }
     }
+    this.getId();
   }
 }
 </script>
