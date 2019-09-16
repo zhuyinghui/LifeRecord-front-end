@@ -35,11 +35,11 @@
           <div v-if="n%5==4" style="background:#23bdb6;">{{n+1}}</div>
         </li>
         <li>
-          <div v-if="n%5==0" style="color:#6c62ff;" @click="checkDetail(item._id,n)">查看详情>></div>
-          <div v-if="n%5==1" style="color:#fe6566;" @click="checkDetail(item._id,n)">查看详情>></div>
-          <div v-if="n%5==2" style="color:#3fb750;" @click="checkDetail(item._id,n)">查看详情>></div>
-          <div v-if="n%5==3" style="color:#ff7008;" @click="checkDetail(item._id,n)">查看详情>></div>
-          <div v-if="n%5==4" style="color:#23bdb6;" @click="checkDetail(item._id,n)">查看详情>></div>
+          <div v-if="n%5==0" style="color:#6c62ff;" @click="checkDetail(n)">查看详情>></div>
+          <div v-if="n%5==1" style="color:#fe6566;" @click="checkDetail(n)">查看详情>></div>
+          <div v-if="n%5==2" style="color:#3fb750;" @click="checkDetail(n)">查看详情>></div>
+          <div v-if="n%5==3" style="color:#ff7008;" @click="checkDetail(n)">查看详情>></div>
+          <div v-if="n%5==4" style="color:#23bdb6;" @click="checkDetail(n)">查看详情>></div>
         </li>
       </ul>
     </div>
@@ -94,12 +94,12 @@ export default {
       this.$refs.pageBar.toPageone();
     },
     async getPage(page){
-      this.currentPage=page;
+      this.page=page;
       const {data} = await this.$axios.$get('/api/blogs?page='+page+'&limit=10&type='+this.type);
       this.list=data;
     },
-    checkDetail(_id,index){
-      this.$router.push({path:'/blog/'+_id,query:{
+    checkDetail(index){
+      this.$router.push({path:'/blog',query:{
         type:this.type,
         page:this.page,
         index:index

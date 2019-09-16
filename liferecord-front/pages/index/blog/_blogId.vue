@@ -26,10 +26,14 @@
         </li>
       </ul>
       <div>
-        <span>这是上一篇博客的文章标题{{type}}</span>
-        <div>上一篇</div>
-        <div>下一篇</div>
-        <span>这是下一篇博客的文章标题这是下一篇博客的文章标题这是下一篇博客的文章标题</span>
+        <span v-if="lastone" @click="lastBlog">{{lastone.blogTitle}}</span>
+        <span v-else>无</span>
+        <div v-if="lastone" @click="lastBlog">上一篇</div>
+        <div v-else>上一篇</div>
+        <div v-if="nextone" @click="nextBlog">下一篇</div>
+        <div v-else>下一篇</div>
+        <span v-if="nextone" @click="nextBlog">{{nextone.blogTitle}}</span>
+        <span v-else>无</span>
       </div>
     </div>
     <div class="sider">
@@ -87,22 +91,32 @@ export default {
     }
   },
   async asyncData(ctx){
-    //获取博客详情
+    //获取指定博客的前后共三条数据
     const data1=await ctx.$axios.$get('/api/blogs/checkDetail',{
       params:{
-        blogId:ctx.params.blogId,
+        type:ctx.query.type,
         page:ctx.query.page,
         index:ctx.query.index
       }
     });
     //获取最新的五篇博客
     const data2=await ctx.$axios.$get('/api/blogs?page=1&limit=5&type=5');
-    //获取当前博客的上一条和下一条记录
-    
-    return{
-      article:data1.data,
-      titlelist:data2.data,
-      type:ctx.query.type
+    if(data1.ifFirst==true){
+      return{
+        lastone:null,
+        article:data1.data[0],
+        nextone:data1.data[1],
+        titlelist:data2.data,
+        type:ctx.query.type
+      }
+    }else{
+      return{
+        lastone:data1.data[0],
+        article:data1.data[1],
+        nextone:data1.data[2],
+        titlelist:data2.data,
+        type:ctx.query.type
+      }
     }
   },
   methods:{
@@ -112,7 +126,32 @@ export default {
       }
       this.list[index].ifselect=true;
       this.type=value;
-      // const data=await this.$axios.$get('api/blogs/')
+    },
+    lastBlog(){
+      let obj=this.$route.query;
+      if(obj.index*1>0){
+        obj.index=obj.index-1;
+      }else{
+        if(obj.page*1>1){
+          obj.page=obj.page-1;
+          obj.index=9;
+        }
+      }
+      obj.type=this.type;
+      this.$router.push({path:'/blog',query:obj});
+      console.log(obj)
+    },
+    nextBlog(){
+      let obj=this.$route.query;
+      if(obj.index*1<9){
+        obj.index=obj.index*1+1;
+      }else{
+          obj.page=obj.page*1+1;
+          obj.index=0;
+      }
+      obj.type=this.type;
+      this.$router.push({path:'/blog',query:obj});
+      console.log(obj)
     }
   },
   mounted(){
