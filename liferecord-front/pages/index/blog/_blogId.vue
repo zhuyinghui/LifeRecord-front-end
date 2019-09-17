@@ -13,7 +13,7 @@
   </div>
   <div class="container">
     <div class="article">
-      <ul>
+      <ul v-if="article">
         <li>{{article.blogTitle}}</li>
         <li>
           <i class="iconfont iconren"></i>
@@ -70,24 +70,45 @@ export default {
     return{
       list:[
         {
-          name:'全部',count:100,ifselect:true,value:5
+          name:'全部',ifselect:true,value:5
         },
         {
-          name:'前端开发',count:20,ifselect:false,value:0
+          name:'前端开发',ifselect:false,value:0
         },
         {
-          name:'后端开发',count:20,ifselect:false,value:1
+          name:'后端开发',ifselect:false,value:1
         },
         {
-          name:'生活记录',count:20,ifselect:false,value:2
+          name:'生活记录',ifselect:false,value:2
         },
         {
-          name:'吃喝玩乐',count:20,ifselect:false,value:3
+          name:'吃喝玩乐',ifselect:false,value:3
         },
         {
-          name:'环游世界',count:20,ifselect:false,value:4
+          name:'环游世界',ifselect:false,value:4
         }
       ],
+    }
+  },
+  watch:{
+    $route:async function(to){
+      //获取指定博客的前后共三条数据
+      const data1=await this.$axios.$get('/api/blogs/checkDetail',{
+        params:{
+          type:to.query.type,
+          page:to.query.page,
+          index:to.query.index
+        }
+      });
+      if(data1.ifFirst==true){
+          this.lastone=null,
+          this.article=data1.data[0],
+          this.nextone=data1.data[1]
+      }else{
+          this.lastone=data1.data[0],
+          this.article=data1.data[1],
+          this.nextone=data1.data[2]
+      }
     }
   },
   async asyncData(ctx){
@@ -101,13 +122,15 @@ export default {
     });
     //获取最新的五篇博客
     const data2=await ctx.$axios.$get('/api/blogs?page=1&limit=5&type=5');
+    //博客各类型的数目
+    const data3=await ctx.$axios.$get('/api/blogs/typeCount');
     if(data1.ifFirst==true){
       return{
         lastone:null,
         article:data1.data[0],
         nextone:data1.data[1],
         titlelist:data2.data,
-        type:ctx.query.type
+        typeCount:data3.data
       }
     }else{
       return{
@@ -115,7 +138,7 @@ export default {
         article:data1.data[1],
         nextone:data1.data[2],
         titlelist:data2.data,
-        type:ctx.query.type
+        typeCount:data3.data
       }
     }
   },
@@ -125,10 +148,15 @@ export default {
         item.ifselect=false;
       }
       this.list[index].ifselect=true;
-      this.type=value;
+      this.$router.replace({path:'/blog',query:{
+        type:value,
+        page:1,
+        index:0
+      }})
     },
     lastBlog(){
-      let obj=this.$route.query;
+      let objstr=JSON.stringify(this.$route.query);
+      let obj=JSON.parse(objstr);
       if(obj.index*1>0){
         obj.index=obj.index-1;
       }else{
@@ -137,31 +165,34 @@ export default {
           obj.index=9;
         }
       }
-      obj.type=this.type;
-      this.$router.push({path:'/blog',query:obj});
-      console.log(obj)
+      this.$router.replace({path:'/blog',query:obj});
     },
     nextBlog(){
-      let obj=this.$route.query;
+      let objstr=JSON.stringify(this.$route.query);
+      let obj=JSON.parse(objstr);
       if(obj.index*1<9){
         obj.index=obj.index*1+1;
       }else{
           obj.page=obj.page*1+1;
           obj.index=0;
       }
-      obj.type=this.type;
-      this.$router.push({path:'/blog',query:obj});
-      console.log(obj)
+      this.$router.replace({path:'/blog',query:obj});
     }
   },
   mounted(){
     //根据地址栏的type值确定博客类型选中的项
     for(let i=0;i<this.list.length;i++){
-      if(this.list[i].value==this.type){
+      if(this.list[i].value==this.$route.query.type){
         this.list[i].ifselect=true;
       }else{
         this.list[i].ifselect=false;
       }
+    }
+    //给博客类型添加数量
+    for(let i=0;i<6;i++){
+      // console.log(this.typeCount[i])
+      this.$set(this.list[i],'count',this.typeCount[i]);
+      // console.log(this.list)
     }
   }
 }
