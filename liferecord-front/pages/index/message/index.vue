@@ -58,7 +58,7 @@ export default {
     }
   },
   methods:{
-    submit(){
+    async submit(){
       let l=this.list;
       let flag=0;
       for(let i in l){
@@ -88,7 +88,16 @@ export default {
         this.tips='验证码不正确喔~';
       }
       else{
-        this.tips=''
+        this.tips='';
+        const {message}=await this.$axios.$post('/api/messages',this.list);
+        alert(message);
+        this.list={
+          name:'',
+          phone:'',
+          email:'',
+          compony:'',
+          content:''
+        };
       }
       
     },
