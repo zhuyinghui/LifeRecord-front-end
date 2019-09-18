@@ -2,13 +2,13 @@
   <div class="menubar" :class="{'backcolor':ifbackcolor}">
     <ul class="menu">
       <li>
-        个人博客
+        LifeRecord
       </li>
       <li>
         <nuxt-link to="/">首页</nuxt-link>
       </li>
       <li>
-        <nuxt-link :to="'/blog/'+blogLink+'?type=5'">博客</nuxt-link>
+        <nuxt-link :to="'/blog/'+'?type=5&page=1&index=0'">博客</nuxt-link>
       </li>
       <li>
         <nuxt-link to="/message">留言板</nuxt-link>
@@ -25,14 +25,6 @@ export default {
   data(){
     return{
       ifbackcolor:false,
-      blogLink:''
-    }
-  },
-  methods:{
-    async getId(){
-      //获取最新一条博客的id
-      const data=await this.$axios.$get('/api/blogs?page=1&limit=1&type=5')
-      this.blogLink=data.data[0]._id;
     }
   },
   mounted(){
@@ -44,7 +36,6 @@ export default {
         this.ifbackcolor=false;
       }
     }
-    this.getId();
   }
 }
 </script>
@@ -83,6 +74,8 @@ export default {
     color: #fff;
     width: 60%;
     text-align: left;
+    font-size: 25px;
+    font-weight: bold;
   }
   .menu li a{
     color: #fff;

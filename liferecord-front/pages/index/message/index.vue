@@ -98,6 +98,8 @@ export default {
           compony:'',
           content:''
         };
+        this.codeNum='';
+        this.codeNum2='';
       }
       
     },
