@@ -49,7 +49,7 @@
         <img src="~static/headImg.png" alt="">
         <ul>
           <li>
-            <span>朱莹辉</span><span>前端工程师</span>
+            <span>朱莹辉</span>
           </li>
           <li>1998.05.01</li>
           <li>湖南财政经济学院</li>
@@ -251,9 +251,8 @@ export default {
         align-items: center;
         justify-content: center;
         img{
-          height: 100px;
-          width: 100px;
-          margin-right: 15px;
+          height: 120px;
+          width: 120px;
         }
         ul{
           li{
@@ -264,15 +263,6 @@ export default {
               span{
                 &:first-child{
                   font-weight: bold;
-                  margin-right: 15px;
-                }
-                &:last-child{
-                  font-size: 10px;
-                  display: block;
-                  background: #6c62ff;
-                  color: #fff;
-                  line-height: 24px;
-                  padding: 0 5px;
                 }
               }
               
