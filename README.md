@@ -123,10 +123,11 @@ server:{
 
 ```
 
-### 12. 路由传参，将需要参数的页面命名为“_参数名.vue”的形式，如博客详情页的目录为pages/blog/_blogId.vue，页面路由为http://localhost:8080/blog/5d7eedf4dc115a1d84de6262，在_blogId.vue里获取参数并请求数据代码如下
+### 12. 路由传参，将需要参数的页面命名为“_参数名.vue”的形式，如博客详情页的目录为pages/blog/_blogId.vue，页面路由为/blog/5d7eedf4dc115a1d84de6262，在_blogId.vue里获取参数并请求数据代码如下
 ```
   async asyncData(ctx){
     const {data}=await ctx.$axios.$get('/api/blogs/checkDetail?blogId='+ctx.params.blogId);
     return {article:data};
   },
 ```
+### 13. 服务端渲染应用部署，命令npm run build，npm run start
