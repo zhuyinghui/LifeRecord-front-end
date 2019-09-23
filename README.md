@@ -77,7 +77,7 @@ server:{
 }
 ```
 
-### 10. 配置axios及代理解决跨域问题，安装命令npm install @nuxtjs/axios @nuxtjs/axios --save，在nuxt.config.js的配置如下，
+### 10. 配置axios及代理解决跨域问题，安装命令npm install @nuxtjs/axios @nuxtjs/proxy --save，在nuxt.config.js的配置如下，
 ```
   modules: [
     '@nuxtjs/axios',
