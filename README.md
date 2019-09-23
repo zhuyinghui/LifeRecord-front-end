@@ -131,3 +131,20 @@ server:{
   },
 ```
 ### 13. 服务端渲染应用部署，命令npm run build，npm run start
+### 14. 配置element-ui，安装npm install element-ui --save，在plugin文件下新建element-ui.js，代码如下
+```
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+Vue.use(ElementUI)
+
+//nuxt.config.js配置如下
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+  ],
+  plugins: [
+  {
+    src:'~plugins/element-ui',
+    ssr:true
+  } 
+  ]
+```
